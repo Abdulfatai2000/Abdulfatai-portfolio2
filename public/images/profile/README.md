@@ -1,11 +1,9 @@
-# Profile image slot
+# Profile portrait
 
-Place your real portrait here:
+The uploaded portrait file is **`my picture.png`**, currently displayed in the hero.
 
-- **portrait.jpg** — displayed in the homepage hero.
+The page references `/images/profile/my%20picture.png` (URL-encoded space).
 
-Crop suggestion: vertical or square (3:4 or 4:5). Aim for 1200–1600 px wide, compressed under 500 KB if practical. Use a genuine JPG export, not a PNG just renamed `.jpg`.
+If you'd prefer a cleaner filename, rename the image to `portrait.png` and update the image `src` in `public/original.html`, plus the filename in `scripts/verify-portfolio.mjs`.
 
-When the image is absent, the portfolio automatically retains its current abstract lime-green coding illustration.
-
-Once added, this public file will appear at `/images/profile/portrait.jpg`. Keep the name and extension exactly as shown.
+Use a compressed, authentic portrait (roughly 3:4 or 4:5 crop). The original lime coding illustration remains visible if the photo is unavailable.
