@@ -1,2 +1,3 @@
-import Portfolio from "@/components/portfolio";
-export default function Home(){return <Portfolio/>;}
+import { redirect } from "next/navigation";
+
+export default function Home() { redirect("/original.html"); }
