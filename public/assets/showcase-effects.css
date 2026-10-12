@@ -59,3 +59,21 @@
   .project,.project .project-photo,.gallery-image-button,.art .portrait-photo,.project-image-open,.portfolio-lightbox,.filters button,.timeline article{animation:none!important;transition:none!important;transform:none!important}
   .project:hover,.gallery-image-button:hover,.art.has-real-image:hover .portrait-photo{transform:none!important}
 }
+
+
+/* Staggered first impression and stronger project hover over the existing reveal rules. */
+@media(prefers-reduced-motion:no-preference){
+  .hero .eyebrow{animation:showcase-rise .75s .07s both}
+  .hero h1{animation:showcase-rise .9s .15s both}
+  .hero .intro{animation:showcase-rise .9s .27s both}
+  .hero .actions{animation:showcase-rise .9s .37s both}
+  .hero .art{animation:showcase-art .95s .22s both}
+  .motion .project.reveal.visible{transition:opacity .8s ease,transform .65s var(--showcase-ease),box-shadow .5s ease,border-color .4s ease}
+  .visual.has-real-image .caption{animation:showcase-rise .6s .16s both}
+}
+@keyframes showcase-rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes showcase-art{from{opacity:0;transform:scale(.965) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .motion .project.reveal.visible:hover{transform:translateY(-9px)}
+  .btn:hover{transform:translateY(-4px)}
+}
