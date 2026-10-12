@@ -1,0 +1,40 @@
+name: Restore original portfolio
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/restore-original.yml'
+jobs:
+  restore:
+    if: "!contains(github.event.head_commit.message, 'restore:')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retrieve original published page
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 120 \
+            -A "Mozilla/5.0" \
+            "https://codewande-portfolio.clean-toad-9167.chatgpt.site/" \
+            -o /tmp/recovered-original.html
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('/tmp/recovered-original.html')
+          content=p.read_text()
+          assert len(content)>10000, 'Original page did not return complete HTML'
+          assert 'ABTech' in content and 'd7fc70' in content, 'Unexpected website content; refusing to overwrite existing page'
+          # Preserve the original layout, functionality and all copy except the brand.
+          content=content.replace('ABTech', 'Abdulfatai')
+          content=content.replace('https://codewande-portfolio.clean-toad-9167.chatgpt.site/#', '/#')
+          Path('public').mkdir(exist_ok=True)
+          Path('public/original.html').write_text(content)
+          print('Restored original page:', len(content), 'characters')
+          PY
+      - name: Commit recovered site to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/original.html
+          git diff --cached --quiet || (git commit -m "restore: original lime portfolio with Abdulfatai branding" && git push)
