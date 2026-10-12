@@ -18,10 +18,10 @@
         <img alt="" />
         <button type="button" class="lightbox-next" aria-label="Next screenshot">›</button>
       </div>
-      <footer class="portfolio-lightbox-bottom">
+      <div class="portfolio-lightbox-bottom">
         <span class="lightbox-description">PROJECT SCREENSHOT</span>
         <span class="portfolio-lightbox-counter" aria-live="polite"></span>
-      </footer>
+      </div>
     </div>`;
   document.body.append(viewer);
 
