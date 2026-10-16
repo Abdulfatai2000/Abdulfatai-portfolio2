@@ -1,0 +1,18 @@
+/* GitHub activity — follows the original portfolio design tokens. */
+.github-activity{border-top:1px solid var(--line)}
+.github-activity .github-panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px;margin-bottom:22px}
+.github-activity .github-panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.github-activity h3{font-size:21px;margin:0}
+.github-activity .github-meta{font:12px monospace;color:var(--muted)}
+.github-activity .github-link{font:12px monospace;color:var(--accent)}
+.github-activity .github-heatmap{display:block;width:100%;max-width:900px;min-height:130px;margin:auto;object-fit:contain}
+.github-activity .github-scroll{overflow-x:auto}
+.github-activity .github-repos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.github-activity .github-repo{display:flex;flex-direction:column;gap:12px;min-height:170px;padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--panel);transition:border-color .25s,transform .25s}
+.github-activity .github-repo:hover{border-color:var(--accent);transform:translateY(-3px)}
+.github-activity .github-repo h4{font-size:17px;margin:0;overflow-wrap:anywhere}
+.github-activity .github-repo p{font-size:13px;color:var(--muted);line-height:1.7;margin:0;flex:1}
+.github-activity .github-repo .github-repo-meta{font:11px monospace;color:var(--accent)}
+.github-activity .github-fallback{color:var(--muted);font-size:13px;line-height:1.8}
+@media(max-width:760px){.github-activity .github-repos{grid-template-columns:1fr}.github-activity .github-panel{padding:18px}.github-activity .github-heatmap{min-width:650px}}
+@media(prefers-reduced-motion:reduce){.github-activity .github-repo{transition:none}.github-activity .github-repo:hover{transform:none}}
