@@ -1,0 +1,8 @@
+/* Progressive, accessible scroll motion without altering native scroll speed. */
+html{scroll-behavior:smooth}
+.motion .reveal{transition-duration:.85s;transition-timing-function:cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+.motion .reveal:not(.visible){transform:translate3d(0,34px,0);opacity:0}
+.motion .reveal.visible{transform:translate3d(0,0,0);opacity:1;will-change:auto}
+.motion .project.reveal:not(.visible),.motion .github-repo.reveal:not(.visible){transform:translate3d(0,24px,0) scale(.985)}
+.motion .project.reveal.visible,.motion .github-repo.reveal.visible{transform:none}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.motion .reveal,.motion .reveal:not(.visible),.motion .reveal.visible{transition:none!important;transform:none!important;opacity:1!important;will-change:auto!important}}
