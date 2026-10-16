@@ -1,0 +1,1 @@
+(()=>{const images=document.querySelectorAll('img[loading="lazy"]');images.forEach(img=>{img.decoding='async';img.addEventListener('error',()=>{img.dataset.failed='true'},{once:true})});const external=document.querySelectorAll('a[target="_blank"]');external.forEach(a=>{a.rel='noopener noreferrer'});})();
