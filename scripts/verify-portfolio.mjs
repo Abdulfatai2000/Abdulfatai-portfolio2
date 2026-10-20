@@ -35,3 +35,21 @@ assert.ok(html.includes("has-real-image"), "Image fallback styling disappeared")
 assert.ok(html.includes("ABDULFATAI"), "Brand signature disappeared");
 assert.ok(!html.includes("__CF$cv"), "Archived challenge script should not ship");
 console.log(`Verified ${requiredImages.length} uploaded images, 2 optional slots, viewer and inline JavaScript.`);
+
+
+// Codesistency-inspired codeWande visual system must be applied LAST.
+const redesignedStylesheet = "/assets/codesistency-redesign.css";
+assert.ok(html.includes(`href="${redesignedStylesheet}"`), "The redesign CSS is not linked from the served homepage");
+assert.ok(existsSync(`public${redesignedStylesheet}`), "Redesign CSS asset is missing");
+assert.ok(
+  html.indexOf('href="/assets/showcase-effects.css"') < html.indexOf(`href="${redesignedStylesheet}"`),
+  "Load the redesign last to override legacy styling",
+);
+const redesignCSS = readFileSync(`public${redesignedStylesheet}`, "utf8");
+for (const token of ["--bg: #05070d", "--accent: #45c8ff", "--cw-violet:", "--showcase-lime:", ".hero-roles", ".contact", ".tool-card", ".note-card", ".project", "@media(max-width:760px)", "prefers-reduced-motion"]) {
+  assert.ok(redesignCSS.includes(token), `Missing visual-system feature: ${token}`);
+}
+for (const element of ['class="hero-roles"', "codeWande", 'id="work"', 'id="about"', 'id="journey"', 'id="skills"', 'id="engineering-notes"', 'id="contact"', 'id="developer-terminal"', 'id="github-activity"']) {
+  assert.ok(html.includes(element), `Missing redesigned portfolio content: ${element}`);
+}
+console.log("Verified blue-black design system, responsive styles and all portfolio landmarks.");
