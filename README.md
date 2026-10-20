@@ -11,7 +11,8 @@ See [the redesign audit and implementation guide](docs/CODEWANDE_REDESIGN.md).
 ## Where the actual homepage lives
 
 - `public/original.html` — current served portfolio; project case studies, filters, responsive drawer, downloadable CV, GitHub activity, developer terminal, timeline, toolkit, notes and contact.
-- `public/assets/codesistency-redesign.css` — **design system and Phase 3 visual overrides**; loaded last to preserve all working legacy features.
+- `public/assets/codesistency-redesign.css` — **design system and Phase 3 visual overrides**; loaded after legacy styles.
+- `public/assets/ambient-interactions.css` and `.js` — **Phase 4 cursor-following light**, scroll-aware navigation and accessible focus/motion; loaded after the design stylesheet.
 - `public/assets/` — original feature-level CSS/JavaScript; keep these until their behavior is replaced.
 - `public/images/` — profile and project screenshots.
 - `src/app/page.tsx` — redirects the root URL to `/original.html`. A React component migration remains a separate follow-up; do not mistake the redirect page for the complete implementation.
@@ -31,7 +32,9 @@ Open [localhost:3000](http://localhost:3000). For production validation:
 npm run typecheck
 npm run lint
 node scripts/verify-portfolio.mjs
+node scripts/test-ambient-interactions.mjs
 npm run build
+node scripts/smoke-production.mjs
 ```
 
 ## Deployment
@@ -44,5 +47,17 @@ Deploy the repository as a Next.js app. Changes committed to `main` are picked u
 2. For design changes, update `public/assets/codesistency-redesign.css` first. The old green palette remains in the legacy styles for recovery and is overridden by the new layer.
 3. Preserve keyboard navigation, reduced-motion behavior, project filtering, gallery/lightbox, terminal and CV download.
 4. Re-run the portfolio checks and test both desktop and mobile after changing navigation or section layouts.
+
+## Phase 5 verification
+
+GitHub Actions runs TypeScript, ESLint, static content and media checks,
+cursor/navigation behavior simulations, the production build and an HTTP smoke
+test of the built Next.js server. The manual browser, mobile, keyboard,
+reduced-motion and live deployment checks are listed in
+[QA_CHECKLIST.md](docs/QA_CHECKLIST.md).
+
+The cursor spotlight is visual only: it never captures clicks, respects reduced
+motion, and never activates from touch input. If JavaScript is disabled, all
+portfolio content and links still work.
 
 The portfolio's previous CSS and markup are intentionally preserved for safe rollback and eventual React extraction.
