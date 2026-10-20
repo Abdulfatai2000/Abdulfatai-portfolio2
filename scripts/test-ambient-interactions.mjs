@@ -21,7 +21,6 @@ for (const part of ["#cw-pointer-glow", "pointer-events: none", "prefers-reduced
 
 function simulate(finePointer) {
   const listeners = new Map();
-  const emitted = new Map();
   const tasks = new Map();
   let nextFrame = 1;
 
