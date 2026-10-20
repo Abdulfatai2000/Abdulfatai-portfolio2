@@ -119,7 +119,10 @@ function simulate(finePointer) {
 
     emit("window", "pointermove", { clientX: 520, clientY: 480, pointerType: "mouse" });
     flush();
-    assert.ok(glow.style.transform.includes("520.0px,480.0px"), "Glow should follow movement");
+    const coordinates = glow.style.transform.match(/translate3d\\(([-\\d.]+)px,([-\\d.]+)px,0\\)/);
+    assert.ok(coordinates, "Glow must use a transformed compositor layer");
+    assert.ok(Math.abs(Number(coordinates[1]) - 520) < 1 && Math.abs(Number(coordinates[2]) - 480) < 1,
+      "Glow should settle within one pixel of pointer");
 
     emit("window", "pointerout", { relatedTarget: null });
     assert.equal(glow.classList.contains("is-visible"), false, "Glow must fade when leaving window");
