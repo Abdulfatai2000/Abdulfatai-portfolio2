@@ -1,0 +1,89 @@
+/*
+ * codeWande — Phase 4 motion and cursor ambience.
+ * Decorative light never captures pointer events or covers readable content.
+ * It is mounted only for fine hover pointers with motion enabled.
+ */
+#cw-pointer-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 660px;
+  height: 660px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  contain: layout paint style;
+  transform: translate3d(-1000px, -1000px, 0) translate(-50%, -50%);
+  background:
+    radial-gradient(circle at center,
+      rgba(68, 184, 255, .26) 0%,
+      rgba(55, 143, 247, .16) 19%,
+      rgba(81, 91, 212, .085) 39%,
+      rgba(81, 91, 212, 0) 70%);
+  transition: opacity .38s ease;
+  will-change: transform, opacity;
+}
+#cw-pointer-glow.is-visible { opacity: 1; }
+/* Existing body layers have z-index: 0; content wrapper sits above all ambient layers. */
+body > .wrap { position: relative; z-index: 1; isolation: isolate; }
+
+/* More intentional affordances without modifying native scroll physics. */
+:where(.btn, .filters button, .project-actions a, .contact-links a) {
+  transition: transform .3s cubic-bezier(.22,1,.36,1),
+              background-color .22s ease, color .22s ease,
+              border-color .22s ease, box-shadow .3s ease;
+}
+nav .links a:not(.pill) { position: relative; }
+nav .links a:not(.pill)::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--cw-violet));
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .24s ease;
+}
+nav .links a:not(.pill):is(:hover, :focus-visible, .is-active) { color: #b9ebff; }
+nav .links a:not(.pill):is(:hover, :focus-visible, .is-active)::after { transform: scaleX(1); }
+nav .links a[aria-current="location"] { color: var(--accent); }
+
+:where(.btn, .project-actions a, .contact-links a):focus-visible {
+  outline: 2px solid #a6eaff;
+  outline-offset: 4px;
+}
+:is(.project, .note-card, .tool-card):focus-within {
+  border-color: #58b8eb;
+  box-shadow: 0 0 0 1px rgba(68, 184, 255, .18);
+}
+.hero-roles span {
+  transition: border-color .26s ease, background-color .26s ease;
+}
+.hero-roles span:hover {
+  border-color: #3a92c9;
+  background: #123350;
+}
+
+/* Scroll reveals already use IntersectionObserver; make motion consistent. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+  .hero-roles { animation: showcase-rise .9s .34s both; }
+  .motion .reveal {
+    transition-duration: .72s;
+    transition-timing-function: cubic-bezier(.22,1,.36,1);
+  }
+}
+@media (hover:none), (pointer:coarse), (prefers-reduced-motion:reduce) {
+  #cw-pointer-glow { display: none !important; }
+}
+@media (prefers-reduced-motion:reduce) {
+  html { scroll-behavior: auto !important; }
+  .hero-roles { animation: none !important; }
+  nav .links a::after, .hero-roles span,
+  :where(.btn, .filters button, .project-actions a, .contact-links a) {
+    transition: none !important;
+  }
+}
