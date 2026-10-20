@@ -18,3 +18,4 @@ jobs:
       - run: node scripts/verify-portfolio.mjs
       - run: node scripts/test-ambient-interactions.mjs
       - run: npm run build
+      - run: node scripts/smoke-production.mjs
