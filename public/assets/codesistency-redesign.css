@@ -321,3 +321,26 @@ footer {border-top:1px solid #253a51;}
   .project,.tool-card,.note-card,.btn {transition:none !important;transform:none !important;}
   body::after {display:none;}
 }
+
+/* Final integration overrides for legacy green hard-codes and injected dialogs. */
+.terminal-output {color:#83dfff;}
+.terminal-form button {color:#07121e;}
+.gallery-image-button img {background:#0d1929;}
+.gallery-image-button::after {background:#0c2740e8;border-color:#2e729c;color:#92e3ff;}
+.art.has-real-image {box-shadow:0 20px 100px #0005,inset 0 0 50px #45c8ff09;}
+.art.has-real-image .arttag {border-color:#3a779f;background:#071b30a8;color:#a5e5ff;}
+.portfolio-lightbox {border-color:#345471;background:#090f1b;color:var(--ink);}
+.portfolio-lightbox::backdrop {background:#020611dd;}
+.portfolio-lightbox-bottom {color:#a7c3dd;}
+.portfolio-lightbox-heading {color:var(--accent);}
+.portfolio-lightbox button {border-color:#335371;background:#14253a;color:#e5f5ff;}
+.portfolio-lightbox button:hover:not(:disabled) {background:#1b4364;}
+@media(hover:hover) and (pointer:fine) {
+  .project:hover {border-color:#3e93cc;box-shadow:0 19px 55px #0007,0 0 0 1px #45c8ff18;}
+  .project:hover .project-image-open {background:#48c9ff;color:#061321;}
+  .filters button:hover:not(.active) {border-color:#439bc9;color:#b9ecff;}
+  .timeline article:hover {background:linear-gradient(100deg,#45c8ff0d,transparent);}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero .eyebrow,.hero h1,.hero .intro,.hero .actions,.hero .art,.hero-roles {animation:none!important;}
+}
