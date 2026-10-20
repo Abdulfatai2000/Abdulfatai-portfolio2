@@ -16,4 +16,5 @@ jobs:
       - run: npm run typecheck
       - run: npm run lint
       - run: node scripts/verify-portfolio.mjs
+      - run: node scripts/test-ambient-interactions.mjs
       - run: npm run build
