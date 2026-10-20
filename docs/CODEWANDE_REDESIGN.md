@@ -54,6 +54,54 @@ The previous markup, project copy and event handlers are retained. The visual ch
 - Browser pass with reduced motion enabled and with remote fonts blocked
 - Check contrast on blue controls, particularly under hovered and selected states
 
+## Phase 4 — cursor glow and interaction refinement (20 October 2026)
+
+Added `public/assets/ambient-interactions.css` and
+`public/assets/ambient-interactions.js`, loaded after the existing design and
+behavior assets on the actual served page.
+
+- **Ambient light:** a large blue/violet radial glow subtly brightens the
+  background beneath the cursor. A single fixed, pointer-events-none element
+  follows the pointer through CSS transforms driven by requestAnimationFrame.
+  Its animation settles and stops when the pointer does; no timers, tracking
+  requests, canvas loops or expensive per-pixel operations are used.
+- **Preferences:** the light is mounted only for
+  `(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)`.
+  Touch pointers do not illuminate it. Media-query changes remove the element,
+  and window exit/background-tab events fade it.
+- **Navigation:** the sticky desktop links display the active section using
+  `aria-current="location"`. The mobile drawer continues to use the existing
+  accessible native dialog and focus-return behavior.
+- **Visual polish:** refined focus rings and hover transitions on cards and
+  buttons, smoother section reveals, native smooth anchor navigation, and
+  animation disabled by reduced-motion preference.
+
+## Phase 5 — automated production validation
+
+The CI workflow now runs these steps after installing dependencies:
+
+1. `npm run typecheck`
+2. `npm run lint`
+3. `node scripts/verify-portfolio.mjs`
+4. `node scripts/test-ambient-interactions.mjs`
+5. `npm run build`
+6. `node scripts/smoke-production.mjs`
+
+The **interaction test** simulates a desktop mouse, unsupported/touch motion
+preferences, cursor movement, loss of focus, cleanup, and scroll-aware navigation
+in a stubbed DOM. It uses Node's built-in `vm` without new production
+dependencies.
+
+The **production smoke test** starts the compiled Next.js server locally,
+requests `/` and the actual HTML, then asserts that the stylesheet, script,
+screenshots, portrait and downloadable CV are served with HTTP 200.
+
+These automated checks **do not substitute for visual QA in a real browser**.
+Use the companion `docs/QA_CHECKLIST.md` for manual acceptance. Pushing to
+`main` triggers repository checks and may trigger a Vercel deployment if the
+project is connected; a successful commit/CI run does not itself confirm that
+the Vercel URL is deployed or publicly reachable.
+
 ## Follow-up architecture work (not part of Phases 1–3)
 
 Convert `public/original.html` into typed React components with explicit data arrays for projects, toolkit, notes, and timeline. Port each interaction one at a time before removing the original page redirect. Keep `/original.html` available as a snapshot until the React version achieves feature parity. 
